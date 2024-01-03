@@ -1,0 +1,13 @@
+@import "__global.scss";
+@import "__reset.scss";
+@import "__vars.scss";
+@import "__fonts.scss";
+
+body {
+  font-family: $cheltenham;
+}
+
+.wrapper {
+  max-width: 1240px;
+  margin: 0 auto;
+}
