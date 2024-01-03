@@ -11,23 +11,23 @@
     <main>
       <div class="sort-filter__section">
         <!-- <select-button /> -->
-        <select v-model="model">
-          <option disabled value="">Show by</option>
-          <option value="name-down">Name (A -> Z)</option>
-          <option value="name-top">Name (Z -> A)</option>
+        <select v-model="selectData">
+          <option disabled value="default">Show by</option>
+          <option value="title">Name (A -> Z)</option>
+          <option value="title">Name (Z -> A)</option>
           <option value="latest-date">Date (Newest First)</option>
           <option value="oldest-date">Date (Oldest First)</option>
         </select>
       </div>
       <div class="news__wrapper">
-        <news-list :news="news" />
+        <news-list :news="sortedNews" />
       </div>
     </main>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 
 import NewsList from "./components/NewsList.vue";
@@ -35,7 +35,7 @@ import SelectButton from "./components/SelectButton.vue";
 
 const news = ref([]);
 let header = ref({});
-const model = defineModel()
+let selectData = ref('');
 
 onMounted(async () => {
   try {
@@ -49,9 +49,17 @@ onMounted(async () => {
   }
 
   return {
-    news,
+    news
   }
-})
+});
+
+// const model = defineModel({ default: 'default' });
+const sortedNews = computed(() => !selectData.value ? news.value : [...(news.value || [])].sort((item1, item2) => item1['title']?.localeCompare(item2['title'])));
+
+// return {
+//   model,
+//   sortedNews
+// }
 
 
 
