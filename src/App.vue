@@ -10,7 +10,7 @@
 
     <main>
       <div class="news__wrapper">
-        <news-list />
+        <news-list :news="news"/>
       </div>
     </main>
   </div>
@@ -23,16 +23,20 @@ import axios from "axios";
 import NewsList from "./components/NewsList.vue";
 
 const news = ref([]);
-
 onMounted(async () => {
   try {
-    const data = await axios.get('https://api.nytimes.com/svc/topstories/v2/business.json?api-key=ZhZXYAVIC3MhEys9Us9Y5icDqq46GFRF');
-    console.log(data)
-
+    const response  = await axios.get('https://api.nytimes.com/svc/topstories/v2/business.json?api-key=ZhZXYAVIC3MhEys9Us9Y5icDqq46GFRF');
+    news.value = response.data.results;
+    console.log(news.value)
   } catch (err) {
     console.log(err)
-  }
+  };
+
+  return {
+      news,
+    };
 })
+
 
 
 </script>
