@@ -1,9 +1,9 @@
 <template>
   <ul class="news__list" v-for="item in news">
     <li class="news__list-item">
-      <a class="news__list-link" :href="item.url" target="_blank">
+      <a class="news__list-link d-flex flex-column" :href="item.url" target="_blank">
         <img class="news__list-item-img" :src="item.multimedia[0].url" alt="">
-        <div class="news__list-about">
+        <div class="news__list-about d-flex flex-column">
           <div class="news__list-details">
             <h3 class="news__list-title">{{ item.title }}</h3>
             <p class="subtitle__date">Last Update: {{ item.updated_date }}</p>
@@ -11,27 +11,62 @@
           <h4 class="news__list-author">{{ item.byline }}</h4>
           <p class="news__list-briefly">{{ item.abstract }}</p>
         </div>
-        <h4 class="news__list-section">
-          <ul class="news__list-section-item">
-            <li class="news__list-section-tag">{{ item.section }}</li>
-          </ul>
-        </h4>
       </a>
+
+      <button class="news__list-section-tag">
+        <span class="news__list-section-title">{{ item.section }}</span>
+      </button>
     </li>
   </ul>
 </template>
 
 <script setup>
-  defineProps({
-    news: Array
-  })
+
+defineProps({
+  news: Array
+})
 </script>
 
 <style lang="scss">
-  .news__list {
+$for-tags: #dcdcdc;
 
-    &-item-img{
-      width: 500px;
-    }
+.news__list {
+
+  &-item {
+    padding: 0 20px;
   }
+
+  &-link {
+    max-width: 100%;
+    gap: 10px;
+  }
+
+  &-item-img {
+    max-width: 100%;
+    height: 500px;
+    object-fit: cover;
+  }
+
+  &-about {
+    gap: 5px;
+  }
+
+  &-author {
+    font-style: italic;
+  }
+
+  &-section-tag {
+    margin-top: 15px;
+    border: none;
+    background: none;
+  }
+
+  &-section-title {
+    background-color: $for-tags;
+    padding: 5px 15px;
+    border-radius: 10px;
+    font-style: italic;
+    cursor: pointer;
+  }
+}
 </style>

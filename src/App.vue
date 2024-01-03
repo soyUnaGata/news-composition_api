@@ -10,7 +10,7 @@
 
     <main>
       <div class="news__wrapper">
-        <news-list :news="news"/>
+        <news-list :news="news" />
       </div>
     </main>
   </div>
@@ -27,7 +27,7 @@ let header = ref({});
 
 onMounted(async () => {
   try {
-    const response  = await axios.get('https://api.nytimes.com/svc/topstories/v2/business.json?api-key=ZhZXYAVIC3MhEys9Us9Y5icDqq46GFRF');
+    const response = await axios.get('https://api.nytimes.com/svc/topstories/v2/business.json?api-key=ZhZXYAVIC3MhEys9Us9Y5icDqq46GFRF');
     news.value = response.data.results;
 
     const headerResponse = await axios.get('https://api.nytimes.com/svc/topstories/v2/business.json?api-key=ZhZXYAVIC3MhEys9Us9Y5icDqq46GFRF');
@@ -67,5 +67,11 @@ header {
   &__date {
     font-weight: 300;
   }
+}
+
+.news__wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 15px;
 }
 </style>
