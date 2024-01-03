@@ -26,3 +26,12 @@
     news: Array
   })
 </script>
+
+<style lang="scss">
+  .news__list {
+
+    &-item-img{
+      width: 500px;
+    }
+  }
+</style>

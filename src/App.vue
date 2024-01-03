@@ -4,7 +4,7 @@
       <h1>By New York Times</h1>
       <div class="subtitle d-flex">
         <p class="subtitle__section">Business Section |</p>
-        <p class="subtitle__date">Last Update:</p>
+        <p class="subtitle__date">Last Update: {{ header.last_updated }}</p>
       </div>
     </header>
 
@@ -23,18 +23,22 @@ import axios from "axios";
 import NewsList from "./components/NewsList.vue";
 
 const news = ref([]);
+let header = ref({});
+
 onMounted(async () => {
   try {
     const response  = await axios.get('https://api.nytimes.com/svc/topstories/v2/business.json?api-key=ZhZXYAVIC3MhEys9Us9Y5icDqq46GFRF');
     news.value = response.data.results;
-    console.log(news.value)
+
+    const headerResponse = await axios.get('https://api.nytimes.com/svc/topstories/v2/business.json?api-key=ZhZXYAVIC3MhEys9Us9Y5icDqq46GFRF');
+    header.value = headerResponse.data;
   } catch (err) {
     console.log(err)
-  };
+  }
 
   return {
-      news,
-    };
+    news,
+  }
 })
 
 
