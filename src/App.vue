@@ -9,6 +9,16 @@
     </header>
 
     <main>
+      <div class="sort-filter__section">
+        <!-- <select-button /> -->
+        <select v-model="model">
+          <option disabled value="">Show by</option>
+          <option value="name-down">Name (A -> Z)</option>
+          <option value="name-top">Name (Z -> A)</option>
+          <option value="latest-date">Date (Newest First)</option>
+          <option value="oldest-date">Date (Oldest First)</option>
+        </select>
+      </div>
       <div class="news__wrapper">
         <news-list :news="news" />
       </div>
@@ -21,9 +31,11 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 
 import NewsList from "./components/NewsList.vue";
+import SelectButton from "./components/SelectButton.vue";
 
 const news = ref([]);
 let header = ref({});
+const model = defineModel()
 
 onMounted(async () => {
   try {
