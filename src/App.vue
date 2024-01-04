@@ -12,15 +12,15 @@
       <div class="sort-filter__section">
         <!-- <select-button /> -->
         <select v-model="selectData">
-          <option disabled value="default">Show by</option>
+          <option disabled value="">Show by</option>
           <option value="title">Name (A -> Z)</option>
-          <option value="title">Name (Z -> A)</option>
-          <option value="latest-date">Date (Newest First)</option>
-          <option value="oldest-date">Date (Oldest First)</option>
+          <option value="title-reverse">Name (Z -> A)</option>
+          <option value="date">Date (Newest First)</option>
+          <option value="date-reverse">Date (Oldest First)</option>
         </select>
       </div>
       <div class="news__wrapper">
-        <news-list :news="sortedNews" />
+        <news-list :news="sortedTitleReverse" />
       </div>
     </main>
   </div>
@@ -54,8 +54,8 @@ onMounted(async () => {
 });
 
 // const model = defineModel({ default: 'default' });
-const sortedNews = computed(() => !selectData.value ? news.value : [...(news.value || [])].sort((item1, item2) => item1['title']?.localeCompare(item2['title'])));
-
+const sortedTitleNews = computed(() => !selectData.value ? news.value : [...(news.value || [])].sort((item1, item2) => item1['title']?.localeCompare(item2['title'])));
+const sortedTitleReverse = computed(() => !selectData.value ? news.value : [...(news.value || [])].sort((item1, item2) => item2['title']?.localeCompare(item1['title'])));
 // return {
 //   model,
 //   sortedNews
