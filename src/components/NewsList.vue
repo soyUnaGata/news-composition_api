@@ -6,7 +6,7 @@
         <div class="news__list-about d-flex flex-column">
           <div class="news__list-details">
             <h3 class="news__list-title">{{ item.title }}</h3>
-            <p class="subtitle__date">Last Update: {{ item.updated_date }}</p>
+            <p class="subtitle__date">Last Update: {{ formatDate(item.updated_date) }}</p>
           </div>
           <h4 class="news__list-author">{{ item.byline }}</h4>
           <p class="news__list-briefly">{{ item.abstract }}</p>
@@ -21,6 +21,7 @@
 </template>
 
 <script setup>
+import { formatDate } from "@/utils/dateUtil.js";
 
 defineProps({
   news: Array

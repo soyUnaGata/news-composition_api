@@ -4,7 +4,7 @@
       <h1>By New York Times</h1>
       <div class="subtitle d-flex">
         <p class="subtitle__section">Business Section |</p>
-        <p class="subtitle__date">Last Update: {{ header.last_updated }}</p>
+        <p class="subtitle__date">Last Update: {{ formatDate(header.last_updated) }}</p>
       </div>
     </header>
 
@@ -29,6 +29,7 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
+import { formatDate } from "./utils/dateUtil.js"
 
 import NewsList from "./components/NewsList.vue";
 import SelectButton from "./components/SelectButton.vue";
@@ -56,6 +57,7 @@ onMounted(async () => {
 // const model = defineModel({ default: 'default' });
 const sortedTitleNews = computed(() => !selectData.value ? news.value : [...(news.value || [])].sort((item1, item2) => item1['title']?.localeCompare(item2['title'])));
 const sortedTitleReverse = computed(() => !selectData.value ? news.value : [...(news.value || [])].sort((item1, item2) => item2['title']?.localeCompare(item1['title'])));
+
 // return {
 //   model,
 //   sortedNews
