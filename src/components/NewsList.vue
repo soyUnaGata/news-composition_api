@@ -25,7 +25,9 @@ import { formatDate } from "@/utils/dateUtil.js";
 
 defineProps({
   news: Array
-})
+});
+
+
 </script>
 
 <style lang="scss">
@@ -53,7 +55,8 @@ $for-tags: #dcdcdc;
   }
 
   &-author {
-    font-style: italic;
+    font-weight: 500;
+    text-decoration: underline;
   }
 
   &-section-tag {
@@ -69,5 +72,9 @@ $for-tags: #dcdcdc;
     font-style: italic;
     cursor: pointer;
   }
+}
+
+.subtitle__date {
+  font-style: italic;
 }
 </style>

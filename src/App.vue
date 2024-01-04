@@ -13,14 +13,14 @@
         <!-- <select-button /> -->
         <select v-model="selectData">
           <option disabled value="">Show by</option>
-          <option value="title">Name (A -> Z)</option>
-          <option value="title-reverse">Name (Z -> A)</option>
-          <option value="date">Date (Newest First)</option>
-          <option value="date-reverse">Date (Oldest First)</option>
+          <option v-for="option in selectOptions" :key="option.value" :value="option.key">
+            {{ option.name }}
+          </option>
+
         </select>
       </div>
       <div class="news__wrapper">
-        <news-list :news="sortedTitleReverse" />
+        <news-list :news="news" />
       </div>
     </main>
   </div>
@@ -29,10 +29,14 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
-import { formatDate } from "./utils/dateUtil.js"
+import dayjs from "dayjs";
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import { formatDate } from "./utils/dateUtil.js";
 
 import NewsList from "./components/NewsList.vue";
 import SelectButton from "./components/SelectButton.vue";
+
+dayjs.extend(isSameOrBefore);
 
 const news = ref([]);
 let header = ref({});
@@ -48,21 +52,32 @@ onMounted(async () => {
   } catch (err) {
     console.log(err)
   }
-
   return {
     news
   }
 });
 
-// const model = defineModel({ default: 'default' });
 const sortedTitleNews = computed(() => !selectData.value ? news.value : [...(news.value || [])].sort((item1, item2) => item1['title']?.localeCompare(item2['title'])));
 const sortedTitleReverse = computed(() => !selectData.value ? news.value : [...(news.value || [])].sort((item1, item2) => item2['title']?.localeCompare(item1['title'])));
 
-// return {
-//   model,
-//   sortedNews
-// }
+const sortedDate = computed(() =>
+  !selectData.value
+    ? news.value
+    : [...(news.value || [])].sort((a, b) => dayjs(a['updated_date']).isSameOrBefore(dayjs(b['updated_date'])) ? 1 : -1)
+);
+const sortedDateReverse = computed(() =>
+  !selectData.value
+    ? news.value
+    : [...(news.value || [])].sort((a, b) => dayjs(a['updated_date']).isSameOrBefore(dayjs(b['updated_date'])) ? -1 : 1)
+);
 
+const selectOptions = ref([
+  // { value: '', name: 'Show by' },
+  { key: 'title', name: 'Name (A -> Z)', value: sortedTitleNews },
+  { key: 'title-reverse', name: 'Name (Z -> A)', value: sortedTitleReverse },
+  { key: 'date', name: 'Date (Newest First)', value: sortedDate },
+  { key: 'date-reverse', name: 'Date (Oldest First)', value: sortedDateReverse },
+])
 
 
 </script>
