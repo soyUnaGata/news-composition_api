@@ -20,7 +20,7 @@
         </select>
       </div>
       <div class="news__wrapper">
-        <news-list :news="news" />
+        <news-list :news="sortedNews" />
       </div>
     </main>
   </div>
@@ -79,6 +79,13 @@ const selectOptions = ref([
   { key: 'date-reverse', name: 'Date (Oldest First)', value: sortedDateReverse },
 ])
 
+const sortedNews = computed(() => {
+  if (!selectData.value) {
+    return news.value;
+  }
+  const selectedOption = selectOptions.value.find(option => option.key === selectData.value);
+  return selectedOption ? selectedOption.value : [];
+});
 
 </script>
 
