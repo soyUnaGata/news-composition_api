@@ -13,7 +13,7 @@
         </div>
       </a>
 
-      <button class="news__list-section-tag">
+      <button class="news__list-section-tag" @click="$emit('get-section', item.section)">
         <span class="news__list-section-title">{{ item.section }}</span>
       </button>
     </li>

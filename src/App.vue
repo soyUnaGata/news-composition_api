@@ -11,16 +11,16 @@
     <main>
       <div class="sort-filter__section">
         <!-- <select-button /> -->
-        <select v-model="selectData">
+        <select v-model="selected">
           <option disabled value="">Show by</option>
-          <option v-for="option in selectOptions" :key="option.value" :value="option.key">
+          <option v-for="option in selectOptions" :value="option.key">
             {{ option.name }}
           </option>
 
         </select>
       </div>
       <div class="news__wrapper">
-        <news-list :news="sortedNews" />
+        <news-list :news="sortedNews" @get-section="(val) => section = val" />
       </div>
     </main>
   </div>
@@ -30,25 +30,20 @@
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import dayjs from "dayjs";
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { formatDate } from "./utils/dateUtil.js";
 
 import NewsList from "./components/NewsList.vue";
-import SelectButton from "./components/SelectButton.vue";
-
-dayjs.extend(isSameOrBefore);
 
 const news = ref([]);
-let header = ref({});
-let selectData = ref('');
+const header = ref({});
+const selected = ref('');
+const section = ref('')
 
 onMounted(async () => {
   try {
-    const response = await axios.get('https://api.nytimes.com/svc/topstories/v2/business.json?api-key=ZhZXYAVIC3MhEys9Us9Y5icDqq46GFRF');
-    news.value = response.data.results;
-
-    const headerResponse = await axios.get('https://api.nytimes.com/svc/topstories/v2/business.json?api-key=ZhZXYAVIC3MhEys9Us9Y5icDqq46GFRF');
-    header.value = headerResponse.data;
+    const { data } = await axios.get('https://api.nytimes.com/svc/topstories/v2/business.json?api-key=ZhZXYAVIC3MhEys9Us9Y5icDqq46GFRF');
+    header.value = data;
+    news.value = data.results;
   } catch (err) {
     console.log(err)
   }
@@ -57,34 +52,21 @@ onMounted(async () => {
   }
 });
 
-const sortedTitleNews = computed(() => !selectData.value ? news.value : [...(news.value || [])].sort((item1, item2) => item1['title']?.localeCompare(item2['title'])));
-const sortedTitleReverse = computed(() => !selectData.value ? news.value : [...(news.value || [])].sort((item1, item2) => item2['title']?.localeCompare(item1['title'])));
-
-const sortedDate = computed(() =>
-  !selectData.value
-    ? news.value
-    : [...(news.value || [])].sort((a, b) => dayjs(a['updated_date']).isSameOrBefore(dayjs(b['updated_date'])) ? 1 : -1)
-);
-const sortedDateReverse = computed(() =>
-  !selectData.value
-    ? news.value
-    : [...(news.value || [])].sort((a, b) => dayjs(a['updated_date']).isSameOrBefore(dayjs(b['updated_date'])) ? -1 : 1)
-);
-
 const selectOptions = ref([
-  // { value: '', name: 'Show by' },
-  { key: 'title', name: 'Name (A -> Z)', value: sortedTitleNews },
-  { key: 'title-reverse', name: 'Name (Z -> A)', value: sortedTitleReverse },
-  { key: 'date', name: 'Date (Newest First)', value: sortedDate },
-  { key: 'date-reverse', name: 'Date (Oldest First)', value: sortedDateReverse },
+  { key: 'title', name: 'Name (A -> Z)', fn: (item1, item2) => item1['title']?.localeCompare(item2['title']) },
+  { key: 'title-reverse', name: 'Name (Z -> A)', fn: (item1, item2) => item2['title']?.localeCompare(item1['title']) },
+  { key: 'date', name: 'Date (Newest First)', fn: (a, b) => dayjs(a['updated_date']).isSameOrBefore(dayjs(b['updated_date'])) ? 1 : -1 },
+  { key: 'date-reverse', name: 'Date (Oldest First)', fn: (a, b) => dayjs(a['updated_date']).isSameOrBefore(dayjs(b['updated_date'])) ? -1 : 1 },
 ])
 
+const filtered = computed(() => section.value ? news.value.filter(news => news.section === section.value) : news.value);
+
 const sortedNews = computed(() => {
-  if (!selectData.value) {
-    return news.value;
+  if (!selected.value) {
+    return filtered.value;
   }
-  const selectedOption = selectOptions.value.find(option => option.key === selectData.value);
-  return selectedOption ? selectedOption.value : [];
+  const selectedType = selectOptions.value.find(option => option.key === selected.value);
+  return selectedType && selectedType.fn ? [...filtered.value].sort(selectedType.fn) : filtered.value;
 });
 
 </script>
