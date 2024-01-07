@@ -9,13 +9,19 @@
     </header>
 
     <main>
-      <div class="sort-filter__section d-flex justify-content-end">
-        <select v-model="selected">
-          <option disabled value="">Show by</option>
-          <option v-for="option in selectOptions" :value="option.key">
-            {{ option.name }}
-          </option>
-        </select>
+      <div class="filters d-flex justify-content-end">
+        <div v-if="selected" class="clear__all__filters">
+          <button class="clear__all__filters-btn" @click="selected = ''">Reset All Filters</button>
+        </div>
+
+        <div class="sort-filter__section d-flex justify-content-end">
+          <select v-model="selected">
+            <option disabled value="">Show by</option>
+            <option v-for="option in selectOptions" :value="option.key">
+              {{ option.name }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div class="news__wrapper">
@@ -100,6 +106,10 @@ header {
   grid-template-columns: 1fr 1fr;
   grid-gap: 15px;
   margin-top: 15px;
+}
+
+.filters {
+  gap: 10px;
 }
 
 .sort-filter__section {
