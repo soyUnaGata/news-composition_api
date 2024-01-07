@@ -9,16 +9,15 @@
     </header>
 
     <main>
-      <div class="sort-filter__section">
-        <!-- <select-button /> -->
+      <div class="sort-filter__section d-flex justify-content-end">
         <select v-model="selected">
           <option disabled value="">Show by</option>
           <option v-for="option in selectOptions" :value="option.key">
             {{ option.name }}
           </option>
-
         </select>
       </div>
+
       <div class="news__wrapper">
         <news-list :news="sortedNews" @get-section="(val) => section = val" />
       </div>
@@ -45,10 +44,11 @@ onMounted(async () => {
     header.value = data;
     news.value = data.results;
   } catch (err) {
-    console.log(err)
+    console.log(err, 'err')
   }
   return {
-    news
+    news,
+    header
   }
 });
 
@@ -63,10 +63,10 @@ const filtered = computed(() => section.value ? news.value.filter(news => news.s
 
 const sortedNews = computed(() => {
   if (!selected.value) {
-    return filtered.value;
+    return news.value;
   }
   const selectedType = selectOptions.value.find(option => option.key === selected.value);
-  return selectedType && selectedType.fn ? [...filtered.value].sort(selectedType.fn) : filtered.value;
+  return selectedType && selectedType.fn ? [...filtered.value].sort(selectedType.fn) : news.value;
 });
 
 </script>
@@ -99,5 +99,10 @@ header {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 15px;
+  margin-top: 15px;
+}
+
+.sort-filter__section {
+  padding-right: 20px;
 }
 </style>

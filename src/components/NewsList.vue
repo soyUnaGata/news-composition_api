@@ -2,7 +2,8 @@
   <ul class="news__list" v-for="item in news">
     <li class="news__list-item">
       <a class="news__list-link d-flex flex-column" :href="item.url" target="_blank">
-        <img class="news__list-item-img" :src="item.multimedia[0].url" alt="">
+        <img class="news__list-item-img" v-if="item.multimedia" :src="item.multimedia[0].url" :alt="item.multimedia[0]">
+        <img class="news__list-item-img" v-else src="../assets/img/newspaper.jpg" alt="newspaper">
         <div class="news__list-about d-flex flex-column">
           <div class="news__list-details">
             <h3 class="news__list-title">{{ item.title }}</h3>
