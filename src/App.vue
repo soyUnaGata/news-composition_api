@@ -115,4 +115,19 @@ header {
 .sort-filter__section {
   padding-right: 20px;
 }
+
+.clear__all__filters-btn {
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+
+  background-color: #f9c3c3;
+  border: 1px solid #e88e8e;
+  border-radius: 5px;
+  color: #333;
+}
 </style>
