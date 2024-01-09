@@ -10,13 +10,13 @@
 
     <main>
       <div class="filters d-flex justify-content-end">
-        <div v-if="selected" class="clear__all__filters">
-          <button class="clear__all__filters-btn" @click="selected = ''">Reset All Filters</button>
+        <div v-if="section" class="clear__all__filters">
+          <button class="clear__all__filters-btn" @click="section = ''">Reset All Filters</button>
         </div>
 
         <div class="sort-filter__section d-flex justify-content-end">
           <select class="sort-filter__select" v-model="selected">
-            <option class="sort-filter__option" disabled value="">Show by</option>
+            <option class="sort-filter__option" value="">Show by</option>
             <option v-for="option in selectOptions" :value="option.key">
               {{ option.name }}
             </option>
@@ -25,7 +25,7 @@
       </div>
 
       <div class="news__wrapper">
-        <news-list :news="sortedNews" @get-section="(val) => section = val" />
+        <news-list :news="sortedNews" @get-section="onSectionChanged" />
       </div>
     </main>
   </div>
@@ -69,11 +69,13 @@ const filtered = computed(() => section.value ? news.value.filter(news => news.s
 
 const sortedNews = computed(() => {
   if (!selected.value) {
-    return news.value;
+    return filtered.value;
   }
   const selectedType = selectOptions.value.find(option => option.key === selected.value);
-  return selectedType && selectedType.fn ? [...filtered.value].sort(selectedType.fn) : news.value;
+  return selectedType && selectedType.fn ? [...filtered.value].sort(selectedType.fn) : filtered.value;
 });
+
+const onSectionChanged = (val) => section.value = val;
 
 </script>
 
