@@ -15,6 +15,15 @@
         </div>
 
         <div class="sort-filter__section d-flex justify-content-end">
+          <select class="sort-filter__select" v-model="section">
+            <option class="sort-filter__option" value="">Section</option>
+            <option v-for="option in categories">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+        <div class="sort-filter__section d-flex justify-content-end">
           <select class="sort-filter__select" v-model="selected">
             <option class="sort-filter__option" value="">Show by</option>
             <option v-for="option in selectOptions" :value="option.key">
@@ -64,8 +73,11 @@ const selectOptions = ref([
   { key: 'date', name: 'Date (Newest First)', fn: (a, b) => dayjs(a['updated_date']).isSameOrBefore(dayjs(b['updated_date'])) ? 1 : -1 },
   { key: 'date-reverse', name: 'Date (Oldest First)', fn: (a, b) => dayjs(a['updated_date']).isSameOrBefore(dayjs(b['updated_date'])) ? -1 : 1 },
 ])
+const onSectionChanged = (val) => section.value = val;
 
 const filtered = computed(() => section.value ? news.value.filter(news => news.section === section.value) : news.value);
+
+const categories = computed(() => [...new Set(news.value.filter(item => item.section).map(item => item.section))])
 
 const sortedNews = computed(() => {
   if (!selected.value) {
@@ -75,7 +87,6 @@ const sortedNews = computed(() => {
   return selectedType && selectedType.fn ? [...filtered.value].sort(selectedType.fn) : filtered.value;
 });
 
-const onSectionChanged = (val) => section.value = val;
 
 </script>
 
