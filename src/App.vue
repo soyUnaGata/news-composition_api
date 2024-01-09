@@ -15,8 +15,8 @@
         </div>
 
         <div class="sort-filter__section d-flex justify-content-end">
-          <select v-model="selected">
-            <option disabled value="">Show by</option>
+          <select class="sort-filter__select" v-model="selected">
+            <option class="sort-filter__option" disabled value="">Show by</option>
             <option v-for="option in selectOptions" :value="option.key">
               {{ option.name }}
             </option>
@@ -112,8 +112,20 @@ header {
   gap: 10px;
 }
 
-.sort-filter__section {
-  padding-right: 20px;
+.sort-filter {
+  &__section {
+    padding-right: 20px;
+  }
+
+  &__select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+    color: #333;
+    outline: none;
+  }
 }
 
 .clear__all__filters-btn {
