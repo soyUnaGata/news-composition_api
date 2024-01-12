@@ -206,6 +206,10 @@ header {
     max-width: 260px;
   }
 
+  .subtitle {
+    flex-direction: column;
+  }
+
   .filters {
     justify-content: space-around;
     align-items: center;
@@ -214,7 +218,9 @@ header {
   .sort-filter {
     &__section {
       padding-right: 0px;
+      justify-content: center;
     }
+
   }
 
   .clear__all__filters-btn {
