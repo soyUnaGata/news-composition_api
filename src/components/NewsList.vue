@@ -78,4 +78,35 @@ $for-tags: #dcdcdc;
 .subtitle__date {
   font-style: italic;
 }
+
+@media (max-width: 992px) {
+  .news__list {
+
+    &-title {
+      font-size: 18px;
+    }
+
+    &-item-img {
+      max-width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .news__list {
+
+    &-title {
+      font-size: 18px;
+    }
+
+    &-item-img {
+      max-width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+}
 </style>

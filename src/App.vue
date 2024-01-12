@@ -11,7 +11,7 @@
     <main>
       <div class="filters d-flex justify-content-end">
         <div v-if="section" class="clear__all__filters">
-          <button class="clear__all__filters-btn" @click="section = ''">Reset All Filters</button>
+          <button class="clear__all__filters-btn" @click="section = ''">Reset Filters</button>
         </div>
 
         <div class="sort-filter__section d-flex justify-content-end">
@@ -154,5 +154,72 @@ header {
   border: 1px solid #e88e8e;
   border-radius: 5px;
   color: #333;
+}
+
+@media (max-width: 1200px) {
+  .wrapper {
+    max-width: 1140px;
+  }
+}
+
+@media (max-width: 992px) {
+  .wrapper {
+    max-width: 960px;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    max-width: 720px;
+  }
+
+}
+
+@media (max-width: 576px) {
+  .wrapper {
+    max-width: 540px;
+  }
+
+  .news__wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .filters {
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .sort-filter {
+    &__section {
+      padding-right: 0px;
+    }
+  }
+
+  .clear__all__filters-btn {
+    padding: 5px 8px;
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 280px) and (max-width: 375px) {
+  .wrapper {
+    max-width: 260px;
+  }
+
+  .filters {
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .sort-filter {
+    &__section {
+      padding-right: 0px;
+    }
+  }
+
+  .clear__all__filters-btn {
+    padding: 5px 8px;
+    font-size: 14px;
+  }
 }
 </style>
