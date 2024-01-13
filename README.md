@@ -29,6 +29,7 @@ Explore the live demo of the News Project: [Live Demo](https://melodious-kataifi
 - Vue 3 Composition API
 - Axios for API requests
 - Dayjs for date formatting
+- SCSS for styling
 
 ## Getting Started
 
