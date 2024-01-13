@@ -166,11 +166,21 @@ header {
   .wrapper {
     max-width: 960px;
   }
+
+  .filters {
+    justify-content: flex-end;
+    align-items: center;
+  }
 }
 
 @media (max-width: 768px) {
   .wrapper {
     max-width: 720px;
+  }
+
+  .filters {
+    justify-content: flex-end;
+    align-items: center;
   }
 
 }
