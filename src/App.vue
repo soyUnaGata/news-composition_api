@@ -11,7 +11,7 @@
     <main>
       <div class="filters d-flex justify-content-end">
         <div v-if="section" class="clear__all__filters">
-          <button class="clear__all__filters-btn" @click="section = ''">Reset Filters</button>
+          <button class="clear__all__filters-btn" @click="section = ''">Reset Filter Section</button>
         </div>
 
         <div class="sort-filter__section d-flex justify-content-end">
